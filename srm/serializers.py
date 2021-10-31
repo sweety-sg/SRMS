@@ -4,11 +4,7 @@ from .models import *
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-class UserSerializer(serializers.ModelSerializer):
-    '''User serializer'''
-    class Meta:
-        model = User
-        fields = '__all__'
+
 
 class ResultSerializer(serializers.ModelSerializer):
     '''Result serializer'''
@@ -31,6 +27,13 @@ class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
         fields = ['id','name','code', 'wiki','examOfsub']
+
+class UserSerializer(serializers.ModelSerializer):
+    '''User serializer'''
+    subjects = SubjectSerializer(many=True, read_only = True)
+    class Meta:
+        model = User
+        fields = ['id','username','department', 'full_name','image', 'email', 'is_admin', 'is_teacher','subjects']
 
 class ResultExamSerializer(serializers.ModelSerializer):
     resultsOfexam = ResultSerializer(many=True, read_only = True)

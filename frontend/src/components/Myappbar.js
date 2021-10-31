@@ -217,7 +217,10 @@ const useStyles = makeStyles((theme) => ({
 
         <div className={classes.root}>
              <CssBaseline />
-        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}
+        //  style={{background:"#ffffff", color:"#5a5a5a"}}
+        style={{background:"#373737"}}
+         >
           <Toolbar className={classes.toolbar}>
             <IconButton
               edge="start"
@@ -228,11 +231,11 @@ const useStyles = makeStyles((theme) => ({
             >
               <MenuIcon />
             </IconButton>
-            <Link to="/dashboard" style={{textDecoration:"none"}}>
+            {/* <Link to="/dashboard" style={{textDecoration:"none"}}>
             <IconButton >
             <HomeIcon style= {{marginLeft : 0 , marginRight : 4 ,color: 'white'}} />
             </IconButton>
-            </Link>
+            </Link> */}
 
             <Typography component="h1" variant="h6" color="inherit" style={{display:'inline'}}>
               {props.title}
@@ -263,7 +266,7 @@ const useStyles = makeStyles((theme) => ({
             
             <div>
             <Button 
-            endIcon={<LogoutIcon/>} 
+            endIcon={<LogoutIcon />} 
             color="inherit"
             onClick={logout()}
             >

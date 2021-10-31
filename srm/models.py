@@ -22,6 +22,7 @@ class Subject(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     code = models.CharField(max_length=255,blank= True ,null=True)
     wiki = models.TextField(blank=True, null=True)
+    students = models.ManyToManyField(User, related_name='subjects')
 
 class Exam(models.Model):
     id = models.AutoField(primary_key=True)
