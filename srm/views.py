@@ -33,7 +33,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(methods=['GET'], detail = False, url_path='results',url_name='user-results')
     def user_results(self,request):
         if(request.user.is_authenticated):
-            serializer = ResultSerializer(request.user.resultsOfstudent.all(), many = True)
+            serializer = ExamResultSerializer(request.user.resultsOfstudent.all(), many = True)
             return Response(serializer.data)
         else:
             return HttpResponseForbidden()
@@ -108,10 +108,24 @@ class ResultsofExam(APIView):
     def get(self, request, pk ,format=None):
         exam = Exam.objects.get(id=pk)
         # serializer = ResultExamSerializer(exam.resultsOfexam.all(), many = True)
-        serializer = ResultExamSerializer(exam)
+        serializer = ResultExamSerializer(exam, many= True)
+        return Response(serializer.data)
+
+class subjectPage(APIView):
+    permission_classes= [isTeacher|isAdmin|isSelf]
+    def get(self, request,sk,format=None):
+        results = request.user.resultsOfstudent.all().filter(subject=sk)
+        serializer = ExamResultSerializer(results, many= True)
         return Response(serializer.data)
         
+class subjectBycode(APIView):
+    permission_classes=[permissions.IsAuthenticated]
+    def get(self, request,val,format=None):
+        subject = Subject.objects.get(code=val)
+        serializer = SubjectSerializer(subject)
+        return Response(serializer.data)
     # def post(self,request,obj):
+
     #     serializer = ResultExamSerializer(data=request.data)
     #     if serializer.is_valid():
     #         obj = serializer.save()

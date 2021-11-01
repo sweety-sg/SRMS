@@ -20,7 +20,7 @@ class User(AbstractUser):
 class Subject(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, blank=True, null=True)
-    code = models.CharField(max_length=255,blank= True ,null=True)
+    code = models.CharField(max_length=255,blank= False ,null=True,unique=True)
     wiki = models.TextField(blank=True, null=True)
     students = models.ManyToManyField(User, related_name='subjects')
 

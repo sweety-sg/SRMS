@@ -44,3 +44,12 @@ class ResultExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
         fields = ['id','name','date','wiki','resultsOfexam','subject']
+
+class ExamResultSerializer(serializers.ModelSerializer):
+    exam = ExamSerializer()
+    student = UserSerializer()
+    subject = SubjectSerializer()
+    class Meta:
+        model = Result
+        # field = ['id','marks','exam','student','subject']
+        fields = '__all__'

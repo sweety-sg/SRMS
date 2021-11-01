@@ -19,7 +19,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 export const mainListItems = (
   <div>
 
-    <Link to="/result" style={{textDecoration:"none"}}>
+    <Link to="/results" style={{textDecoration:"none"}}>
     <ListItem button >
     <Tooltip title="Results" enterDelay={200} leaveDelay={100} placement="right">
     <ListItemIcon>

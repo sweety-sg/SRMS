@@ -33,6 +33,7 @@ React.useEffect(() => {
     fetchUserResult();
 },[]);
     var arr = []
+    var options = []
     for(var i=0; i< subjects.length;i++){
         var c=0;
         var total=0;
@@ -44,10 +45,11 @@ React.useEffect(() => {
         }
         if(c!=0){
             arr.push(total/c);
+            options.push(subjects[i].code)
         }
-        else{
-            arr.push("Not conducted")
-        }
+        // else{
+        //     arr.push("Not conducted")
+        // }
     }
     const CHART_DATA = [{ data: arr }];
     const chartOptions = {
@@ -64,16 +66,17 @@ React.useEffect(() => {
       bar: { horizontal: true, barHeight: '28%', borderRadius: 2 }
     },
     xaxis: {
-      categories: subjects.map((subject)=>(
-          subject.code
-      ))
+    //   categories: subjects.map((subject)=>(
+    //       subject.code
+    //   ))
+        categories: options
     
     }
   };
 
   return (
     <Card>
-      <CardHeader title="Your Performance" subheader="subject-wise" />
+      <CardHeader title="Your Performance hitherto" subheader="average out of 100" />
       <Box sx={{ mx: 3 }} dir="ltr">
         <ReactApexChart type="bar" series={CHART_DATA} options={chartOptions} height={364} />
       </Box>

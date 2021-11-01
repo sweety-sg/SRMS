@@ -219,7 +219,8 @@ const useStyles = makeStyles((theme) => ({
              <CssBaseline />
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}
         //  style={{background:"#ffffff", color:"#5a5a5a"}}
-        style={{background:"#373737"}}
+        // style={{background:"#373737"}}
+        style={{background:"#000"}}
          >
           <Toolbar className={classes.toolbar}>
             <IconButton
@@ -227,7 +228,7 @@ const useStyles = makeStyles((theme) => ({
               color="inherit"
               aria-label="open drawer"
               onClick={handleDrawerOpen}
-              className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+              className={clsx(classes.menuButton, open && classes.menuButtonHidden) && "light-hover"} 
             >
               <MenuIcon />
             </IconButton>
@@ -237,7 +238,7 @@ const useStyles = makeStyles((theme) => ({
             </IconButton>
             </Link> */}
 
-            <Typography component="h1" variant="h6" color="inherit" style={{display:'inline'}}>
+            <Typography component="h1" variant="h6" color="inherit" style={{display:'inline',marginLeft:"20px"}}>
               {props.title}
             </Typography>
             <Container  className={classes.TitleCont} align='center'>
@@ -269,6 +270,7 @@ const useStyles = makeStyles((theme) => ({
             endIcon={<LogoutIcon />} 
             color="inherit"
             onClick={logout()}
+            className="light-hover"
             >
             <Typography component="h1" variant="button" color="inherit" wrap style= {{paddingLeft : 2.5 , paddingRight : 1}}>
               Logout

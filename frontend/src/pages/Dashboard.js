@@ -14,8 +14,16 @@ import { Dialog , Grid} from '@mui/material';
 import SubjectCard from '../components/SubjectCard';
 import Box from '@mui/material/Box';
 import DashGraph from '../components/dashGraph';
+import { styled } from '@mui/material/styles';
+import { Card } from '@mui/material';
 
-
+const RootStyle = styled(Card)(({ theme }) => ({
+    boxShadow: 'none',
+    textAlign: 'center',
+    padding: theme.spacing(5, 0),
+    color: "#ffffff",
+  //   backgroundColor: combination[0]
+  }));
 const Dashboard = () => {
     const [user, setUser] = React.useState({});
     const [subjects, setSubjects] = React.useState([]);
@@ -46,6 +54,25 @@ return(
           <Typography variant="h4">Hi, Welcome back</Typography>
         </Box>
         <Grid xs={12} style={{marginBottom:"2rem"}}> <DashGraph subjects={subjects}/></Grid>
+        <Box sx={{ pb: 5 }}>
+          <Typography variant="h5">View detailed results</Typography>
+        </Box>
+                  
+                <Grid  xs={12}  style={{marginBottom:"2rem"}}>
+                <Link to ="/results" style={{textDecoration:"none"}}>
+                <RootStyle className="pop gradient">
+                {/* <IconWrapperStyle>
+                    <Icon icon={bugFilled} width={24} height={24} />
+                </IconWrapperStyle> */}
+                <Typography variant="h3">All Results</Typography>
+                {/* <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
+                    {props.obj.name}
+                </Typography> */}
+                </RootStyle>
+                </Link>
+                </Grid>
+                
+        
         <Box sx={{ pb: 5 }}>
           <Typography variant="h5">View detailed results</Typography>
         </Box>
