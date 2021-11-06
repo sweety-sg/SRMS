@@ -21,3 +21,7 @@ class isSelforAdmin(permissions.BasePermission):
         if(obj.student == request.user or request.user.is_admin):
             return True
         return False
+
+class isuserSelf(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.id == request.user

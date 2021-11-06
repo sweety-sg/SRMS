@@ -61,14 +61,14 @@ class UserViewSet(viewsets.ModelViewSet):
         if self.request.method == 'GET':
             self.permission_classes = [permissions.IsAuthenticated]
         elif self.request.method == 'PUT' or self.request.method == 'PATCH' or self.request.method == 'POST' or self.request.method == 'DELETE':
-            self.permission_classes = [permissions.IsAuthenticated, isAdmin]
+            self.permission_classes = [permissions.IsAuthenticated, isAdmin|isuserSelf]
 
         return super(UserViewSet, self).get_permissions()
 
 
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
-    serializer_class = SubjectSerializer
+    serializer_class = SubjectstudentSerializer
 
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -96,7 +96,7 @@ class ResultViewSet(viewsets.ModelViewSet):
     serializer_class = ResultSerializer
     def get_permissions(self):
         if self.request.method == 'GET':
-            self.permission_classes = [permissions.IsAuthenticated,isSelforAdmin]
+            self.permission_classes = [permissions.IsAuthenticated,isSelforAdmin|isTeacher]
         elif self.request.method == 'PUT' or self.request.method == 'PATCH' or self.request.method == 'DELETE' or self.request.method == 'POST':
             self.permission_classes = [permissions.IsAuthenticated,isAdmin|isTeacher]
 
@@ -108,7 +108,7 @@ class ResultsofExam(APIView):
     def get(self, request, pk ,format=None):
         exam = Exam.objects.get(id=pk)
         # serializer = ResultExamSerializer(exam.resultsOfexam.all(), many = True)
-        serializer = ResultExamSerializer(exam, many= True)
+        serializer = ResultExamSerializer(exam)
         return Response(serializer.data)
 
 class subjectPage(APIView):
@@ -117,7 +117,14 @@ class subjectPage(APIView):
         results = request.user.resultsOfstudent.all().filter(subject=sk)
         serializer = ExamResultSerializer(results, many= True)
         return Response(serializer.data)
-        
+
+class subjectUserPage(APIView):
+    permission_classes= [isTeacher|isAdmin|isSelf]
+    def get(self, request,sk,format=None):
+        subject = Subject.objects.get(subject=sk)
+        serializer = SubjectUserSerializer(subject, many= True)
+        return Response(serializer.data)   
+
 class subjectBycode(APIView):
     permission_classes=[permissions.IsAuthenticated]
     def get(self, request,val,format=None):

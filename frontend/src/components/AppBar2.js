@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useRef} from 'react';
 // import Cookies from 'js-cookie';
 import { Redirect } from 'react-router-dom';
 import { useTheme, makeStyles } from "@material-ui/core/styles";
@@ -22,7 +22,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import { Icon, Menu, MenuItem, Tooltip } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
-import {mainListItems ,secondaryListItems,teacherList} from './pages' ;
+import {mainListItems ,secondaryListItems} from './pages' ;
 // import AddIcon from '@mui/icons-material/Add';
 // import NewProject from './newProject';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -133,14 +133,12 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
   export default function MyAppBar(props){
-    const [teacher,setTeacher] = useState(false);
     let history = useHistory();
 
         async function fetchUserDetails(){
                 axios
                     .get('http://127.0.0.1:3000/srm/user/data', {headers:{ "X-CSRFToken":Cookies.get('csrftoken')}})
                     .then((response) => {
-                      setTeacher(response.data.is_teacher);
                     })
                     .catch((error) => {
                         history.push("/");
@@ -234,13 +232,11 @@ const useStyles = makeStyles((theme) => ({
             >
               <MenuIcon />
             </IconButton>
-            {!teacher &&
             <Link to="/dashboard" style={{textDecoration:"none"}}>
             <IconButton >
             <HomeIcon style= {{marginLeft : 0 , marginRight : 4 ,color: 'white'}} />
             </IconButton>
             </Link>
-            }
 
             <Typography component="h1" variant="h6" color="inherit" style={{display:'inline',marginLeft:"20px"}}>
               {props.title}
@@ -299,20 +295,9 @@ const useStyles = makeStyles((theme) => ({
             </IconButton>
           </div>
           <Divider />
-          {!teacher &&
-          <>
           <List>{mainListItems}</List>
           <Divider />
           <List>{secondaryListItems}</List>
-          </>
-          }
-          {teacher &&
-          <>
-          <List>{teacherList}</List>
-          <Divider />
-          <List>{secondaryListItems}</List>
-          </>
-          }
         </Drawer>
         </div>
         

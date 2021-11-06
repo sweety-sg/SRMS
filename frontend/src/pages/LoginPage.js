@@ -25,7 +25,13 @@ const LoginPage = () => {
             axios
                 .get('http://127.0.0.1:3000/srm/user/data', {headers:{ "X-CSRFToken":Cookies.get('csrftoken')}})
                 .then((response) => {
-                    history.push("/dashboard");
+                    if(response.data.is_teacher){
+                      history.push("/home");
+                    }
+                    else{
+                      history.push("/dashboard");
+                    }
+                    
                 })
                 .catch((error) => {
                     history.push("/");

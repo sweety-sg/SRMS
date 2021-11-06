@@ -23,11 +23,12 @@ class Subject(models.Model):
     code = models.CharField(max_length=255,blank= False ,null=True,unique=True)
     wiki = models.TextField(blank=True, null=True)
     students = models.ManyToManyField(User, related_name='subjects')
+    teachers = models.ManyToManyField(User, related_name='subs')
 
 class Exam(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, blank=True, null=True)
-    date = models.DateField()
+    date = models.DateField(blank=True, null=True)
     wiki = models.TextField(blank=True, null=True)
     subject= models.ForeignKey(to=Subject, on_delete=models.CASCADE, null=True, related_name='examOfsub')
 
@@ -37,7 +38,8 @@ class Result(models.Model):
     student = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, related_name='resultsOfstudent')
     exam = models.ForeignKey(to=Exam, on_delete=models.CASCADE, null=True, related_name='resultsOfexam')
     subject= models.ForeignKey(to=Subject, on_delete=models.CASCADE, null=True, related_name='resultsOfsub')
-    
+    class Meta:
+        unique_together = ('student', 'exam')
 
 
     
