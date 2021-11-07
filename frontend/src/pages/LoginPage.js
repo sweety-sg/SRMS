@@ -82,15 +82,27 @@ const LoginPage = () => {
           <Container maxWidth="sm">
             <Formik
               initialValues={{
-                email: '',
+                username: '',
                 password: ''
               }}
               //   validationSchema={Yup.object().shape({
               //     email: Yup.string().max(255).required('Username is required'),
               //     password: Yup.string().max(255).required('Password is required')
               //   })}
-              onSubmit={() => {
-                window.location.reload();
+              onSubmit={(values) => {
+                // console.log(values);
+                axios
+                .post("http://127.0.0.1:3000/srm/validate", values)
+                .then((res) => {
+                  console.log(res);
+                  console.log("posted form");
+                  window.location.reload();
+                })
+                .catch((err) => {
+                  console.log(err);
+                  console.log("can't post form");
+                });
+            
               }}
             >
               {({
@@ -175,11 +187,11 @@ const LoginPage = () => {
                     helperText={touched.email && errors.email}
                     label="Username/Enrolment no."
                     margin="normal"
-                    name="email"
+                    name="username"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    type="email"
-                    value={values.email}
+                    // type="email"
+                    value={values.username}
                     variant="outlined"
                   />
                   <TextField

@@ -19,6 +19,8 @@ urlpatterns = [
     path('subject/<str:val>', views.subjectBycode.as_view()),
     # path('subject/<int:sk>/info', views.subjectUserPage.as_view()),
     path('logout', views.logout_view, name="logout"),
+
+    path('validate', views.login_validate, name="validate"),
 ]
 
 urlpatterns += router.urls

@@ -10,11 +10,11 @@ from rest_framework.decorators import action
 from rest_framework.views import APIView
 from .serializers import *
 # from .permissions import *
-from rest_framework.renderers import JSONRenderer
+from rest_framework.renderers import JSONRenderer,TemplateHTMLRenderer
 from .models import *
 from . import models
 from django.contrib.auth import authenticate, login,logout,get_user_model
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, renderer_classes
 from .permissions import *
 
 def index(request):
@@ -147,3 +147,22 @@ def logout_view(request):
             return JsonResponse({'status': 'successful'})
     else:
         return HttpResponseForbidden()
+
+@api_view(('GET','POST'))
+# @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
+def login_validate(request):
+    if request.method == 'POST' :
+        data = request.data
+        username = data.get('username')
+        password = data.get('password')
+        print(data)
+        user = authenticate(username= username, password= password)
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'status': 'successful'})
+        else:
+            return Response('Incorrect credentials', status=status.HTTP_400_BAD_REQUEST)
+
+    else:
+        return Response('Bad request', status=status.HTTP_400_BAD_REQUEST)
+

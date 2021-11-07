@@ -20,17 +20,25 @@ import MyAppBar from '../components/Myappbar';
 import '../components/style.css';
 import UpcomingExams from './upcomingExams';
 import { Box } from '@mui/system';
+import { useHistory } from "react-router-dom";
 
 const Home = ()=>{
     const [user, setUser] = React.useState({});
     const [subs, setSubs] = React.useState([]);
+    let history = useHistory();
     async function fetchUserDetails(){
         axios
         .get("http://127.0.0.1:3000/srm/user/data")
         .then((res) => {
         console.log(res.data);
-        setUser(res.data);
+        // setUser(res.data);
         setSubs(res.data.subs);
+        if(!res.data.is_teacher){
+            history.push("/dashboard");
+        }
+        else{
+            setUser(res.data)
+        }
         console.log("yes");
         })
         .catch((err) => {
