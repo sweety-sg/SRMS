@@ -25,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
     subs = SubjectSerializer(many=True, read_only = True)
     class Meta:
         model = User
-        fields = ['id','username','department', 'full_name','image', 'email', 'is_admin', 'is_teacher','subjects','subs']
+        fields = ['id','username','department', 'full_name','image', 'email', 'is_admin', 'is_teacher','subjects','subs','mobile']
 
 class SubjectstudentSerializer(serializers.ModelSerializer):
     '''Subject serializer'''
