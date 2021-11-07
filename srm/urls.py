@@ -18,6 +18,7 @@ urlpatterns = [
     path('subject/<int:sk>/result', views.subjectPage.as_view()),
     path('subject/<str:val>', views.subjectBycode.as_view()),
     path('logout', views.logout_view, name="logout"),
+    path('password_change', views.password_change, name="password_change"),
 ]
 
 urlpatterns += router.urls

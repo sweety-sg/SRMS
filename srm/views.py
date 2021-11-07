@@ -16,6 +16,7 @@ from . import models
 from django.contrib.auth import authenticate, login,logout,get_user_model
 from rest_framework.decorators import api_view, permission_classes
 from .permissions import *
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 
 def index(request):
     return HttpResponse("Hello, world. You're at the index.")
@@ -61,9 +62,10 @@ class UserViewSet(viewsets.ModelViewSet):
         if self.request.method == 'GET':
             self.permission_classes = [permissions.IsAuthenticated]
         elif self.request.method == 'PUT' or self.request.method == 'PATCH' or self.request.method == 'POST' or self.request.method == 'DELETE':
-            self.permission_classes = [permissions.IsAuthenticated, isAdmin]
+            self.permission_classes = [permissions.IsAuthenticated, isAdmin|isuserSelf]
 
         return super(UserViewSet, self).get_permissions()
+
 
 
 class SubjectViewSet(viewsets.ModelViewSet):
@@ -140,3 +142,19 @@ def logout_view(request):
             return JsonResponse({'status': 'successful'})
     else:
         return HttpResponseForbidden()
+
+
+@api_view(('GET','POST'))
+def password_change(request):
+    if request.method == 'POST' :
+        data = request.data
+        username = data.get('username')
+        oldpassword = data.get('oldpassword')
+        newpassword= data.get('newpassword')
+        print(data)
+        user = authenticate(username= username, password= oldpassword)
+        if user is not None:
+            user.set_password(newpassword)
+            return JsonResponse({'status': 'successful'})
+        else:
+            return Response('Bad request', status=status.HTTP_400_BAD_REQUEST)

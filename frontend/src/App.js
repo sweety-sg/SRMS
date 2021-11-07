@@ -5,9 +5,15 @@ import React from 'react';
 import MyAppBar from './components/Myappbar';
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard';
+
 import Page404 from './pages/error';
 import SubjectPage from './pages/subjectPage';
 import AllResults from './pages/AllResults';
+import PostList from './components/PostList';
+
+
+// import Password_change from './pages/Password_change';
+
 // function loggedIn() {
 //   return false
 // }
@@ -23,15 +29,19 @@ function App() {
   return (
     <>
     <div>
-    <Route exact path="/dashboard">
+    <Route exact path="/">
       
-        <Dashboard />
+        < LoginPage />
       </Route>
-      <Route exact path="/">
-        <LoginPage/>
+      <Route exact path="/dashboard">
+        <Dashboard/>
       </Route>
       <Route exact path="/404">
         <Page404/>
+      </Route>
+        <Route exact path="/postlist">
+      
+        < PostList />
       </Route>
       <Route exact path="/subject/:code" component={SubjectPage} />
       <Route exact path="/results" component={AllResults} />

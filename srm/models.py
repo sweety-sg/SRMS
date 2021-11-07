@@ -14,6 +14,7 @@ class User(AbstractUser):
     # password = models.CharField(db_column='Password', max_length=255, blank=True, null=True)  # Field name made lowercase.
     is_admin = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
+    mobile = models.IntegerField(blank= True ,null=True)
     class Meta:
         db_table = 'User'
 

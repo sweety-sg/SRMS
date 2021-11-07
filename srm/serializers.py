@@ -33,7 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
     subjects = SubjectSerializer(many=True, read_only = True)
     class Meta:
         model = User
-        fields = ['id','username','department', 'full_name','image', 'email', 'is_admin', 'is_teacher','subjects']
+        fields = ['id','username','department', 'full_name','image', 'email', 'is_admin', 'is_teacher','subjects','mobile']
 
 class ResultExamSerializer(serializers.ModelSerializer):
     resultsOfexam = ResultSerializer(many=True, read_only = True)
