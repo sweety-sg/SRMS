@@ -5,20 +5,11 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-
-class ResultSerializer(serializers.ModelSerializer):
-    '''Result serializer'''
-    class Meta:
-        model = Result
-        fields = '__all__'
-
-
-
 class ExamSerializer(serializers.ModelSerializer):
     '''Exam serializer'''
     class Meta:
         model = Exam
-        fields = '__all__'
+        fields = '_all_'
 
 class SubjectSerializer(serializers.ModelSerializer):
     '''Subject serializer'''
@@ -26,24 +17,30 @@ class SubjectSerializer(serializers.ModelSerializer):
    
     class Meta:
         model = Subject
-        fields = ['id','name','code', 'wiki','examOfsub']
+        fields = ['id','name','code', 'wiki','examOfsub','students']
 
 class UserSerializer(serializers.ModelSerializer):
     '''User serializer'''
     subjects = SubjectSerializer(many=True, read_only = True)
+    subs = SubjectSerializer(many=True, read_only = True)
     class Meta:
         model = User
-        fields = ['id','username','department', 'full_name','image', 'email', 'is_admin', 'is_teacher','subjects','mobile']
+        fields = ['id','username','department', 'full_name','image', 'email', 'is_admin', 'is_teacher','subjects','subs','mobile']
 
-class ResultExamSerializer(serializers.ModelSerializer):
-    resultsOfexam = ResultSerializer(many=True, read_only = True)
-    subject = SubjectSerializer()
-    # class Meta:
-    #     model = Result
-    #     fields = ['id','marks','student']
+class SubjectstudentSerializer(serializers.ModelSerializer):
+    '''Subject serializer'''
+    examOfsub= ExamSerializer(many=True, read_only = True)
+    students = UserSerializer(many=True, read_only = True)
+   
     class Meta:
-        model = Exam
-        fields = ['id','name','date','wiki','resultsOfexam','subject']
+        model = Subject
+        fields = ['id','name','code', 'wiki','examOfsub','students']
+
+class ResultSerializer(serializers.ModelSerializer):
+    '''Result serializer'''
+    class Meta:
+        model = Result
+        fields = ['id','marks','student', 'exam']
 
 class ExamResultSerializer(serializers.ModelSerializer):
     exam = ExamSerializer()
@@ -52,4 +49,23 @@ class ExamResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
         # field = ['id','marks','exam','student','subject']
-        fields = '__all__'
+        fields = '_all_'
+
+class ResultExamSerializer(serializers.ModelSerializer):
+    resultsOfexam = ExamResultSerializer(many=True, read_only = True)
+    subject = SubjectSerializer()
+    # class Meta:
+    #     model = Result
+    #     fields = ['id','marks','student']
+    class Meta:
+        model = Exam
+        fields = ['id','name','date','wiki','resultsOfexam','subject']
+
+class SubjectUserSerializer(serializers.ModelSerializer):
+    '''Subject serializer'''
+    examOfsub= ExamSerializer(many=True, read_only = True)
+    subjects = SubjectSerializer(many=True, read_only = True)
+   
+    class Meta:
+        model = Subject
+        fields = ['id','name','code', 'wiki','examOfsub', 'subjects']

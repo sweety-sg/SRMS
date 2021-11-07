@@ -10,11 +10,11 @@ from rest_framework.decorators import action
 from rest_framework.views import APIView
 from .serializers import *
 # from .permissions import *
-from rest_framework.renderers import JSONRenderer
+from rest_framework.renderers import JSONRenderer,TemplateHTMLRenderer
 from .models import *
 from . import models
 from django.contrib.auth import authenticate, login,logout,get_user_model
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, renderer_classes
 from .permissions import *
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 
@@ -70,7 +70,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
-    serializer_class = SubjectSerializer
+    serializer_class = SubjectstudentSerializer
 
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -98,7 +98,7 @@ class ResultViewSet(viewsets.ModelViewSet):
     serializer_class = ResultSerializer
     def get_permissions(self):
         if self.request.method == 'GET':
-            self.permission_classes = [permissions.IsAuthenticated,isSelforAdmin]
+            self.permission_classes = [permissions.IsAuthenticated,isSelforAdmin|isTeacher]
         elif self.request.method == 'PUT' or self.request.method == 'PATCH' or self.request.method == 'DELETE' or self.request.method == 'POST':
             self.permission_classes = [permissions.IsAuthenticated,isAdmin|isTeacher]
 
@@ -110,7 +110,7 @@ class ResultsofExam(APIView):
     def get(self, request, pk ,format=None):
         exam = Exam.objects.get(id=pk)
         # serializer = ResultExamSerializer(exam.resultsOfexam.all(), many = True)
-        serializer = ResultExamSerializer(exam, many= True)
+        serializer = ResultExamSerializer(exam)
         return Response(serializer.data)
 
 class subjectPage(APIView):
@@ -119,7 +119,14 @@ class subjectPage(APIView):
         results = request.user.resultsOfstudent.all().filter(subject=sk)
         serializer = ExamResultSerializer(results, many= True)
         return Response(serializer.data)
-        
+
+class subjectUserPage(APIView):
+    permission_classes= [isTeacher|isAdmin|isSelf]
+    def get(self, request,sk,format=None):
+        subject = Subject.objects.get(subject=sk)
+        serializer = SubjectUserSerializer(subject, many= True)
+        return Response(serializer.data)   
+
 class subjectBycode(APIView):
     permission_classes=[permissions.IsAuthenticated]
     def get(self, request,val,format=None):
@@ -142,6 +149,24 @@ def logout_view(request):
             return JsonResponse({'status': 'successful'})
     else:
         return HttpResponseForbidden()
+
+@api_view(('GET','POST'))
+# @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
+def login_validate(request):
+    if request.method == 'POST' :
+        data = request.data
+        username = data.get('username')
+        password = data.get('password')
+        print(data)
+        user = authenticate(username= username, password= password)
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'status': 'successful'})
+        else:
+            return Response('Incorrect credentials', status=status.HTTP_400_BAD_REQUEST)
+
+    else:
+        return Response('Bad request', status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(('GET','POST'))
