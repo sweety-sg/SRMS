@@ -35,8 +35,9 @@ This project consistes of a full stack website that eases the process of student
 - [HTML]
 - [CSS]
 - [react.js] -  open-source front-end JavaScript library for building user interfaces
-- [Django]
-- [VS Code] - text editor
+- [Django] -  high-level Python web framework that enables rapid development of secure and maintainable websites.
+- [VS Code] - text editor.
+- [Material UI] - a library that allows us to import and use different components to create a user interface in our React applications.
 
 
 
@@ -47,7 +48,7 @@ This project consistes of a full stack website that eases the process of student
 ```sh
 pip install -r requirements.txt
 ```
-### Create a user
+#### Create a user
 ```sh
 python manage.py createsuperuser
 ```
