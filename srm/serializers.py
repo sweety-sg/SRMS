@@ -9,7 +9,7 @@ class ExamSerializer(serializers.ModelSerializer):
     '''Exam serializer'''
     class Meta:
         model = Exam
-        fields = '__all__'
+        fields = '_all_'
 
 class SubjectSerializer(serializers.ModelSerializer):
     '''Subject serializer'''
@@ -49,7 +49,8 @@ class ExamResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
         # field = ['id','marks','exam','student','subject']
-        fields = '__all__'
+        fields = '_all_'
+
 
 class ResultExamSerializer(serializers.ModelSerializer):
     resultsOfexam = ExamResultSerializer(many=True, read_only = True)

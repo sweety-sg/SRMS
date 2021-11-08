@@ -16,16 +16,9 @@ import Home from './pages_teacher/home';
 import SubjectsTeached from './pages_teacher/subjects';
 import ExamsofSub from './pages_teacher/examsofsub';
 import AllExams from './pages_teacher/Allexams';
-// function loggedIn() {
-//   return false
-// }
-// function requireAuth(nextState, replace) {
-//   if (!loggedIn()) {
-//     replace({
-//       pathname: '/'
-//     })
-//   }
-// }
+import PostList from './components/PostList';
+
+
 function App() {
   const [isTeacher, SetTeacher]= useState(false);
   const [user, setUser] = React.useState({});
@@ -50,15 +43,19 @@ function App() {
   return (
     <>
     <div>
-    <Route exact path="/dashboard">
+    <Route exact path="/">
       
-        <Dashboard />
+        < LoginPage />
       </Route>
-      <Route exact path="/">
-        <LoginPage/>
+      <Route exact path="/dashboard">
+        <Dashboard/>
       </Route>
       <Route exact path="/404">
         <Page404/>
+      </Route>
+        <Route exact path="/postlist">
+      
+        < PostList />
       </Route>
       <Route exact path="/subject/:code" component={SubjectPage} />
       <Route exact path="/results" component={AllResults} />
