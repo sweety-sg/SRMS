@@ -302,15 +302,15 @@ const useStyles = makeStyles((theme) => ({
           {!teacher &&
           <>
           <List>{mainListItems}</List>
-          <Divider />
-          <List>{secondaryListItems}</List>
+          {/* <Divider />
+          <List>{secondaryListItems}</List> */}
           </>
           }
           {teacher &&
           <>
           <List>{teacherList}</List>
-          <Divider />
-          <List>{secondaryListItems}</List>
+          {/* <Divider />
+          <List>{secondaryListItems}</List> */}
           </>
           }
         </Drawer>

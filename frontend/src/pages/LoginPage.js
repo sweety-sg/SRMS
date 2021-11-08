@@ -18,7 +18,9 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
-
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
 const LoginPage = () => {
   // const navigate = useNavigate();
   let history = useHistory();
@@ -27,6 +29,7 @@ const LoginPage = () => {
     axios
       .get('http://127.0.0.1:3000/srm/user/data', { headers: { "X-CSRFToken": Cookies.get('csrftoken') } })
       .then((response) => {
+         sleep(5000) 
         if (response.data.is_teacher) {
           history.push("/home");
         }
@@ -46,7 +49,7 @@ const LoginPage = () => {
   return (
     <div style={{ margin: "auto", padding: "10rem" }}>
       <Helmet>
-        <title>Login | Material Kit</title>
+        <title>Login | SRMS</title>
       </Helmet>
       <Box
         sx={{

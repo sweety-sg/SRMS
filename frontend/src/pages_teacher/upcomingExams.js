@@ -11,6 +11,7 @@ import "../components/style.css";
 import { Dialog } from '@mui/material';
 import Grow from "@material-ui/core/Grow";
 import Cookies from 'js-cookie';
+import { useHistory } from "react-router-dom";
 // material
 import {
   Card,
@@ -81,7 +82,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function UpcomingExams(props) {
+export default function UpcomingExams() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -89,9 +90,10 @@ export default function UpcomingExams(props) {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [max,setMax]=useState("100vh");
-  const [results, setResults] = React.useState([]);
+  const [user, setuser] = React.useState({});
   const [subs, setSubs] = React.useState([]);
   const [openres, setOpenres] = React.useState(false);
+  let history = useHistory();
   
   const isteacher = ()=>{
       return(Cookies.get("teacher"))
@@ -100,13 +102,14 @@ export default function UpcomingExams(props) {
         axios
         .get("http://127.0.0.1:3000/srm/user/data")
         .then((res) => {
-        console.log(res.data);
+        setuser(res.data);
         setSubs(res.data.subs);
         console.log("yes");
         })
         .catch((err) => {
         console.log(err);
         console.log("no");
+        history.push("/");
         });
     }
     // async function fetchResultDetails(){
@@ -223,7 +226,7 @@ function convert(str) {
 
   return (
     // <Page title="User | Minimal-UI">
-    (isteacher()) &&
+   (Cookies.get("teacher")) &&
         <>
       <Container  style={{maxHeight:"120vh"}}>
         <Card className="light-shadow">
@@ -326,8 +329,10 @@ function convert(str) {
           />
         </Card>
       </Container>
-         </>       
-                
+         </>   
+                // <div><Typography></Typography></div>
+      // (!isteacher()) && " "
     // </Page>
   );
+  // 
 }
