@@ -16,6 +16,7 @@ import Home from './pages_teacher/home';
 import SubjectsTeached from './pages_teacher/subjects';
 import ExamsofSub from './pages_teacher/examsofsub';
 import AllExams from './pages_teacher/Allexams';
+import PostList from './components/Postlist';
 // function loggedIn() {
 //   return false
 // }
@@ -68,6 +69,7 @@ function App() {
       <Route exact path="/subjectsTeached" component={SubjectsTeached} />
       <Route exact path="/subject/:code/exams" component={ExamsofSub} />
       <Route exact path="/exams" component={AllExams} />
+      <Route exact path="/myprofile" component={PostList} />
       
     </div>
     </>
