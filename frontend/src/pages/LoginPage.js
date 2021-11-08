@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
@@ -7,6 +7,8 @@ import '../components/style.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useHistory } from "react-router-dom";
+import login_img from './login_img.png';
+
 import {
   Box,
   Button,
@@ -18,51 +20,89 @@ import {
 } from '@material-ui/core';
 
 const LoginPage = () => {
-    // const navigate = useNavigate();
-    let history = useHistory();
+  // const navigate = useNavigate();
+  let history = useHistory();
 
-    async function fetchUserDetails(){
-            axios
-                .get('http://127.0.0.1:3000/srm/user/data', {headers:{ "X-CSRFToken":Cookies.get('csrftoken')}})
-                .then((response) => {
-                    history.push("/dashboard");
-                })
-                .catch((error) => {
-                    history.push("/");
-                    console.log(error)
-                });
+  async function fetchUserDetails() {
+    axios
+      .get('http://127.0.0.1:3000/srm/user/data', { headers: { "X-CSRFToken": Cookies.get('csrftoken') } })
+      .then((response) => {
+        if (response.data.is_teacher) {
+          history.push("/home");
         }
-    React.useEffect(()=>{
-        fetchUserDetails();
-    }, []);
-    return (
-      <div style={{margin:"auto", padding:"10rem"}}>
-        <Helmet>
-          <title>Login | Material Kit</title>
-        </Helmet>
+        else {
+          history.push("/dashboard");
+        }
+
+      })
+      .catch((error) => {
+        history.push("/");
+        console.log(error)
+      });
+  }
+  React.useEffect(() => {
+    fetchUserDetails();
+  }, []);
+  return (
+    <div style={{ margin: "auto", padding: "10rem" }}>
+      <Helmet>
+        <title>Login | Material Kit</title>
+      </Helmet>
+      <Box
+        sx={{
+          display: 'flex'
+        }}
+
+      >
+        <Box sx={{ textAlign: 'center' }}>
+          <img
+            alt="login"
+            src={login_img}           
+              style={{
+              marginTop: 0,
+              display: 'flex',
+              maxWidth: '100%',
+              width: 560
+            }}
+          />
+        </Box>
         <Box
-        className="shadow"
+          className="shadow"
           sx={{
             backgroundColor: 'background.default',
             display: 'flex',
             flexDirection: 'column',
             height: '100%',
             justifyContent: 'center',
-            padding:"1rem"
+            padding: "1rem",
+            marginTop: "4rem",
+            marginLeft: "6rem"
           }}
         >
           <Container maxWidth="sm">
             <Formik
               initialValues={{
-                email: '',
+                username: '',
                 password: ''
               }}
-            //   validationSchema={Yup.object().shape({
-            //     email: Yup.string().max(255).required('Username is required'),
-            //     password: Yup.string().max(255).required('Password is required')
-            //   })}
-              onSubmit={() => {
-                window.location.reload();
+              //   validationSchema={Yup.object().shape({
+              //     email: Yup.string().max(255).required('Username is required'),
+              //     password: Yup.string().max(255).required('Password is required')
+              //   })}
+              onSubmit={(values) => {
+                // console.log(values);
+                axios
+                .post("http://127.0.0.1:3000/srm/validate", values)
+                .then((res) => {
+                  console.log(res);
+                  console.log("posted form");
+                  window.location.reload();
+                })
+                .catch((err) => {
+                  console.log(err);
+                  console.log("can't post form");
+                });
+            
               }}
             >
               {({
@@ -80,6 +120,7 @@ const LoginPage = () => {
                       color="textPrimary"
                       variant="h5"
                     >
+
                       Student Result Management System
                     </Typography>
                     <Typography
@@ -146,11 +187,11 @@ const LoginPage = () => {
                     helperText={touched.email && errors.email}
                     label="Username/Enrolment no."
                     margin="normal"
-                    name="email"
+                    name="username"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    type="email"
-                    value={values.email}
+                    // type="email"
+                    value={values.username}
                     variant="outlined"
                   />
                   <TextField
@@ -193,8 +234,10 @@ const LoginPage = () => {
             </Formik>
           </Container>
         </Box>
-      </div>
-    );
-  };
-  
-  export default LoginPage;
+
+      </Box>
+    </div>
+  );
+};
+
+export default LoginPage;

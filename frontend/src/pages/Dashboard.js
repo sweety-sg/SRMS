@@ -27,11 +27,15 @@ const RootStyle = styled(Card)(({ theme }) => ({
 const Dashboard = () => {
     const [user, setUser] = React.useState({});
     const [subjects, setSubjects] = React.useState([]);
+    let history = useHistory();
     async function fetchUserDetails(){
         axios
         .get("http://127.0.0.1:3000/srm/user/data")
         .then((res) => {
         console.log(res.data);
+        if(res.data.is_teacher){
+            history.push("/home");
+        }
         setUser(res.data);
         setSubjects(res.data.subjects);
         console.log("yes");
@@ -45,7 +49,7 @@ React.useEffect(() => {
     fetchUserDetails();
 },[]);
 return(
-    <div style={{display:"flex", height:"1000px"}}>
+    <div className="flex-row">
     <MyAppBar title="Dashboard"/>
     <div style={{padding:"2rem",width:"100%", marginTop:"5rem"}}>
         
@@ -60,7 +64,7 @@ return(
                   
                 <Grid  xs={12}  style={{marginBottom:"2rem"}}>
                 <Link to ="/results" style={{textDecoration:"none"}}>
-                <RootStyle className="pop gradient">
+                <RootStyle className="pop gradient" style={{color:"#ffffff"}}>
                 {/* <IconWrapperStyle>
                     <Icon icon={bugFilled} width={24} height={24} />
                 </IconWrapperStyle> */}
@@ -73,7 +77,7 @@ return(
                 </Grid>
                 
         
-        <Box sx={{ pb: 5 }}>
+        {/* <Box sx={{ pb: 5 }}>
           <Typography variant="h5">View detailed results</Typography>
         </Box>
         <Grid container spacing={3}>
@@ -86,7 +90,7 @@ return(
                 </Grid>
                 
             ))}
-        </Grid>
+        </Grid> */}
         </div>
     </div>
     </div>

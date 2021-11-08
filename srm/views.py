@@ -183,3 +183,4 @@ def password_change(request):
             return JsonResponse({'status': 'successful'})
         else:
             return Response('Bad request', status=status.HTTP_400_BAD_REQUEST)
+

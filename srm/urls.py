@@ -17,8 +17,11 @@ urlpatterns = [
     path('exam/<int:pk>/results', views.ResultsofExam.as_view()),
     path('subject/<int:sk>/result', views.subjectPage.as_view()),
     path('subject/<str:val>', views.subjectBycode.as_view()),
+    # path('subject/<int:sk>/info', views.subjectUserPage.as_view()),
     path('logout', views.logout_view, name="logout"),
     path('password_change', views.password_change, name="password_change"),
+    path('validate', views.login_validate, name="validate"),
+
 ]
 
 urlpatterns += router.urls

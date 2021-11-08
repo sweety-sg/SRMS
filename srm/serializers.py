@@ -51,6 +51,7 @@ class ExamResultSerializer(serializers.ModelSerializer):
         # field = ['id','marks','exam','student','subject']
         fields = '_all_'
 
+
 class ResultExamSerializer(serializers.ModelSerializer):
     resultsOfexam = ExamResultSerializer(many=True, read_only = True)
     subject = SubjectSerializer()

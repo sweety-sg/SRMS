@@ -12,6 +12,7 @@ export const logout = () => async (dispatch) => {
             // {headers: { "Content-Type": "application/json" ,  "X-CSRFToken": Cookies.get("csrftoken")},  params: {withCredentials : true}}
           ).then((response) => {
             console.log(response)
+                Cookies.remove("teacher")
                 window.location.reload();
             
           })
