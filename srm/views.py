@@ -140,7 +140,7 @@ class subjectBycode(APIView):
     #         data["id"] = obj.id
     #         return Response(data, status=status.HTTP_201_CREATED)
     #     return Response(status=status.HTTP_400_BAD_REQUEST)
-
+@api_view(('GET',))
 def logout_view(request):
     if request.user.is_authenticated:
             logout(request)

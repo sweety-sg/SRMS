@@ -31,7 +31,7 @@ import Avatar from '@mui/material/Avatar';
 import './style.css'
 import { useHistory } from "react-router-dom";
 import { ClickAwayListener } from '@mui/material';
-import { logout } from './authentication/logout';
+// import { Logout } from './authentication/logout';
 import { Dialog } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Button } from '@mui/material';
@@ -132,9 +132,28 @@ const useStyles = makeStyles((theme) => ({
       fill: 'white'
     }
   }));
+  
   export default function MyAppBar(props){
     const [teacher,setTeacher] = useState(false);
     let history = useHistory();
+    async function Logout() {
+      try {
+          await axios.get('http://127.0.0.1:3000/srm/logout'
+              
+              // {headers: { "Content-Type": "application/json" ,  "X-CSRFToken": Cookies.get("csrftoken")},  params: {withCredentials : true}}
+            ).then((response) => {
+              console.log(response)
+                  Cookies.remove("teacher")
+                  history.push("/");
+                  // window.location.replace("/");
+              
+            })
+          // localStorage.removeItem('userInfo')
+          // dispatch({ type: type.USER_LOGOUT })
+      } catch (error) {
+          console.log(error)
+      }
+  }
 
         async function fetchUserDetails(){
                 axios
@@ -273,7 +292,7 @@ const useStyles = makeStyles((theme) => ({
             <Button 
             endIcon={<LogoutIcon />} 
             color="inherit"
-            onClick={logout()}
+            onClick={Logout}
             className="light-hover"
             >
             <Typography component="h1" variant="button" color="inherit" wrap style= {{paddingLeft : 2.5 , paddingRight : 1}}>

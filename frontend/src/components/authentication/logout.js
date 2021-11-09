@@ -5,8 +5,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useHistory } from "react-router-dom";
 
-export const logout = () => async (dispatch) => {
-    let history = useHistory();
+export const Logout = () => async (dispatch) => {
+    // let history = useHistory();
     try {
         await axios.get('http://127.0.0.1:3000/srm/logout'
             
@@ -14,8 +14,8 @@ export const logout = () => async (dispatch) => {
           ).then((response) => {
             console.log(response)
                 Cookies.remove("teacher")
-                history.push("/");
-                // window.location.reload();
+                // history.push("/");
+                window.location.replace("/");
             
           })
         // localStorage.removeItem('userInfo')
@@ -24,3 +24,11 @@ export const logout = () => async (dispatch) => {
         console.log(error)
     }
 }
+
+// export const Logout = () =>{
+//     let history = useHistory();
+//     Cookies.remove("teacher")
+//     Cookies.remove("csrftoken")
+//     Cookies.remove("sessionid")
+//     history.push("/");
+// }
